@@ -18,10 +18,10 @@ public class MockGraphProvider {
         graph.addNode(n2);
         graph.addNode(n3);
 
-        graph.addEdge(n0, n1);
-        graph.addEdge(n0, n2);
-        graph.addEdge(n1, n3);
-        graph.addEdge(n2, n3);
+        graph.addEdge(0, 1);
+        graph.addEdge(0, 2);
+        graph.addEdge(1, 3);
+        graph.addEdge(2, 3);
 
         return graph;
     }
@@ -38,9 +38,9 @@ public class MockGraphProvider {
         graph.addNode(n2);
         graph.addNode(n3);
 
-        graph.addEdge(n0, n1);
-        graph.addEdge(n1, n3);
-        graph.addEdge(n2, n3);
+        graph.addEdge(4, 5);
+        graph.addEdge(5, 7);
+        graph.addEdge(6, 7);
 
         return graph;
     }

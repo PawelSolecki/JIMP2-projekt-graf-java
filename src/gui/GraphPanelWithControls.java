@@ -1,6 +1,6 @@
 package gui;
 
-import io.MockGraphProvider;
+import io.GraphReaderCSRRG;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,9 +14,18 @@ public class GraphPanelWithControls extends JPanel {
         setLayout(new BorderLayout());
 
         List<ColoredGraphView> graphViews = new ArrayList<>();
-        graphViews.add(new ColoredGraphView(MockGraphProvider.createSampleGraph1(), generateRandomColor()));
-        graphViews.add(new ColoredGraphView(MockGraphProvider.createSampleGraph2(), generateRandomColor()));
-
+//        graphViews.add(new ColoredGraphView(MockGraphProvider.createSampleGraph1(), generateRandomColor()));
+//        graphViews.add(new ColoredGraphView(MockGraphProvider.createSampleGraph2(), generateRandomColor()));
+        try {
+            graphViews.add(
+                new ColoredGraphView(
+                    new GraphReaderCSRRG().readGraph("src/resources/graf.csrrg"),
+                    generateRandomColor()
+                )
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         GraphPanel graphPanel = new GraphPanel(graphViews);
         add(graphPanel, BorderLayout.CENTER);
 
