@@ -38,10 +38,6 @@ public class GraphReaderCSRRG implements GraphReader {
             firstElementInGroup.add(connectedNodes.size());
 
 
-
-//            1;3;
-//            1;5;3;2;6;0;3;6
-//            0;2;2;4;5;5;7;10
             int indexNumber = 0;
             for (int i = 0; i < verticesRow.size() - 1; i++) {
                 for (int j = verticesRow.get(i); j < verticesRow.get(i + 1); j++) {
@@ -52,7 +48,7 @@ public class GraphReaderCSRRG implements GraphReader {
 
             }
 
-            for (int i = 0; i < firstElementInGroup.size() -1; i++) {
+            for (int i = 0; i < firstElementInGroup.size() - 1; i++) {
                 for (int j = firstElementInGroup.get(i); j <firstElementInGroup.get(i+1) ; j++) {
                     graph.addEdge(connectedNodes.get(firstElementInGroup.get(i)), connectedNodes.get(j));
                 }

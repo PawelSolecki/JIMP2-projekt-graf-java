@@ -3,6 +3,8 @@ package gui;
 import model.Graph;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ColoredGraphView {
     private final Graph graph;
@@ -27,7 +29,19 @@ public class ColoredGraphView {
         return visible;
     }
 
+
+    private final List<VisibilityChangeListener> listeners = new ArrayList<>();
+
+    public interface VisibilityChangeListener {
+        void onVisibilityChanged();
+    }
+
+    public void addVisibilityChangeListener(VisibilityChangeListener listener) {
+        listeners.add(listener);
+    }
+
     public void toggleVisibility() {
         visible = !visible;
+        listeners.forEach(VisibilityChangeListener::onVisibilityChanged);
     }
 }
