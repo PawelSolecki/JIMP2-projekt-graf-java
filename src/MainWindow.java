@@ -1,13 +1,10 @@
 import gui.ControlPanel;
-import gui.GraphPanel;
 import gui.GraphPanelWithControls;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
-    private GraphPanelWithControls graphPanel;
-    private ControlPanel controlPanel;
 
     public MainWindow() {
         super("Graph Viewer");
@@ -16,8 +13,8 @@ public class MainWindow extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new BorderLayout());
 
-        graphPanel = new GraphPanelWithControls();
-        controlPanel = new ControlPanel();
+        GraphPanelWithControls graphPanel = new GraphPanelWithControls();
+        ControlPanel controlPanel = new ControlPanel();
 
         add(graphPanel, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.EAST);
