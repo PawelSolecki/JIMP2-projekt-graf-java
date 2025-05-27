@@ -46,7 +46,4 @@ public class MenuBar extends JMenuBar {
         return menuBar;
     }
 
-    public File getSelectedFile() {
-        return selectedFile;
-    }
 }
