@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.function.Consumer;
@@ -32,6 +33,10 @@ public class MenuBar extends JMenuBar {
     private void handleOpenFile(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Wybierz plik do wczytania");
+
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+            "Pliki grafu (*.bin, *.csrrg)", "bin", "csrrg");
+        fileChooser.setFileFilter(filter);
 
         int returnValue = fileChooser.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION) {
