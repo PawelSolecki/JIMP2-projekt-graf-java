@@ -1,8 +1,10 @@
 import gui.GraphPanelWithControls;
 import gui.MenuBar;
 import io.GraphReader;
+import io.GraphReaderBin;
 import io.GraphReaderCSRRG;
 import gui.ControlPanel;
+import io.MockGraphProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,7 +13,6 @@ import java.io.IOException;
 import java.util.List;
 
 public class MainWindow extends JFrame {
-    private final GraphReader reader = new GraphReaderCSRRG();
     private final GraphPanelWithControls graphPanel;
     private final ControlPanel controlPanel;
 
@@ -22,7 +23,9 @@ public class MainWindow extends JFrame {
         setLayout(new BorderLayout());
 
         graphPanel = new GraphPanelWithControls(List.of());
+        graphPanel.setGraph(List.of(MockGraphProvider.createSampleGraph1(), MockGraphProvider.createSampleGraph2()));
         controlPanel = new ControlPanel();
+        controlPanel.setGraphViews(graphPanel.getGraphViews());
 
         setJMenuBar(new MenuBar(this::handleFileSelection).getMenuBar());
 
@@ -33,7 +36,17 @@ public class MainWindow extends JFrame {
 
     private void handleFileSelection(File selectedFile) {
         try {
-            System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+            String fileName = selectedFile.getName().toLowerCase();
+            GraphReader reader;
+
+            if (fileName.endsWith(".bin")) {
+                reader = new GraphReaderBin();
+            } else if (fileName.endsWith(".csrrg")) {
+                reader = new GraphReaderCSRRG();
+            } else {
+                throw new IllegalArgumentException("Nieobsługiwane rozszerzenie pliku.");
+            }
+
             graphPanel.setGraph(List.of(reader.readGraph(selectedFile.getAbsolutePath())));
 
 

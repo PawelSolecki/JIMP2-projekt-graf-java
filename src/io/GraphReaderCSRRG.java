@@ -1,7 +1,6 @@
 package io;
 
 import model.Graph;
-import model.Node;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -33,30 +32,26 @@ public class GraphReaderCSRRG implements GraphReader {
             List<Integer> connectedNodes = parseSemicolonSeparatedInts(line, lineNum);
 
             // 5 linia: wskazniki na pierwszy element grupy
-            line = nextLine(reader, ++lineNum);
-            List<Integer> firstElementInGroup = parseSemicolonSeparatedInts(line, lineNum);
+            List<Integer> firstElementInGroup = new ArrayList<>();
+
+            // koniec pliku lub pusta linia — przerwij
+            while (true) {
+                lineNum++;  // najpierw zwiększ lineNum jawnie
+                line = nextLine(reader, lineNum);  // potem wywołaj nextLine
+
+                if (line == null || line.trim().isEmpty()) {
+                    break;
+                }
+
+                firstElementInGroup.addAll(parseSemicolonSeparatedInts(line, lineNum));
+            }
             firstElementInGroup.add(connectedNodes.size());
 
+            return new GraphBuilder().build(numCols, vertices, verticesRow, connectedNodes, firstElementInGroup);
 
-            int indexNumber = 0;
-            for (int i = 0; i < verticesRow.size() - 1; i++) {
-                for (int j = verticesRow.get(i); j < verticesRow.get(i + 1); j++) {
-                    graph.addNode(new Node(indexNumber, i, vertices.get(j)));
-                    indexNumber++;
-
-                }
-
-            }
-
-            for (int i = 0; i < firstElementInGroup.size() - 1; i++) {
-                for (int j = firstElementInGroup.get(i); j <firstElementInGroup.get(i+1) ; j++) {
-                    graph.addEdge(connectedNodes.get(firstElementInGroup.get(i)), connectedNodes.get(j));
-                }
-            }
-
-            return graph;
 
         } catch (IOException | NumberFormatException e) {
+            System.out.println("Error while reading graph: " + e.getMessage());
             throw new Exception("Error while reading graph: " + e.getMessage(), e);
         }
     }
@@ -64,7 +59,7 @@ public class GraphReaderCSRRG implements GraphReader {
     private String nextLine(BufferedReader reader, int lineNum) throws IOException {
         String line = reader.readLine();
         if (line == null) {
-            throw new IOException("Unexpected end of file at line " + lineNum);
+            return null;
         }
         return line.trim();
     }
