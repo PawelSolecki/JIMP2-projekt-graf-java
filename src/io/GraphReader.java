@@ -2,7 +2,9 @@ package io;
 
 import model.Graph;
 
+import java.util.List;
+
 public interface GraphReader {
 
-    Graph readGraph(String filePath) throws Exception;
+    List<Graph> readGraph(String filePath) throws Exception;
 }

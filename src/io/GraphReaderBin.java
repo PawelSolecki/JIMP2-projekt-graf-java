@@ -8,8 +8,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GraphReaderBin implements GraphReader {
+    private final GraphUtils graphUtils = new GraphUtils();
+
     @Override
-    public Graph readGraph(String filePath) throws Exception {
+    public List<Graph> readGraph(String filePath) throws Exception {
 
         try (RandomAccessFile file = new RandomAccessFile(filePath, "r")) {
             byte[] signature = new byte[2];
@@ -30,7 +32,7 @@ public class GraphReaderBin implements GraphReader {
             }
             firstElementInGroup.add(connectedNodes.size());
 
-            return new GraphBuilder().build(numCols, vertices, verticesRow, connectedNodes, firstElementInGroup);
+            return graphUtils.separateGraphs(graphUtils.build(numCols, vertices, verticesRow, connectedNodes, firstElementInGroup));
 
         } catch (Exception e) {
             throw new Exception("Error while reading graph: " + e.getMessage(), e);

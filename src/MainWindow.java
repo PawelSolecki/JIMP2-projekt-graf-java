@@ -1,10 +1,7 @@
 import gui.GraphPanelWithControls;
 import gui.MenuBar;
-import io.GraphReader;
-import io.GraphReaderBin;
-import io.GraphReaderCSRRG;
+import io.*;
 import gui.ControlPanel;
-import io.MockGraphProvider;
 
 import javax.swing.*;
 import java.awt.*;
@@ -47,7 +44,7 @@ public class MainWindow extends JFrame {
                 throw new IllegalArgumentException("Nieobsługiwane rozszerzenie pliku.");
             }
 
-            graphPanel.setGraph(List.of(reader.readGraph(selectedFile.getAbsolutePath())));
+            graphPanel.setGraph(reader.readGraph(selectedFile.getAbsolutePath()));
 
 
         } catch (IOException e) {
@@ -67,5 +64,14 @@ public class MainWindow extends JFrame {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(MainWindow::new);
+        GraphWriter writer = new GraphWriterCSRRG();
+        try {
+            writer.writeGraph("sample_graph.csrrg",MockGraphProvider.createSampleGraph1() );
+            writer.writeGraph("sample_graph2.csrrg",MockGraphProvider.createSampleGraph2());
+        } catch (IOException e) {
+            System.err.println("Error writing graph: " + e.getMessage());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
