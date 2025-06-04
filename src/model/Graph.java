@@ -45,4 +45,8 @@ public class Graph {
     public int getNumVertices() {
         return adjacencyList.size();
     }
+    
+    public Node getNodeByIndex(int index) {
+        return nodesByIndex.get(index);
+    }
 }
