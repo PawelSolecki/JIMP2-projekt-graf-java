@@ -13,7 +13,7 @@ public class ControlPanel extends JPanel {
     private final List<ColoredGraphView> graphViews = new ArrayList<>();
     private final JPanel controls;
 
-    public ControlPanel() {
+    public ControlPanel(Runnable handleGraphPartitioning2) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setPreferredSize(new Dimension(200, getHeight()));
@@ -22,7 +22,8 @@ public class ControlPanel extends JPanel {
         controls.setLayout(new BoxLayout(controls, BoxLayout.Y_AXIS));
 
         JButton splitButton = new JButton("Podziel graf");
-        splitButton.addActionListener(e -> handleGraphPartitioning());
+        splitButton.addActionListener(e -> handleGraphPartitioning2.run());
+//        splitButton.addActionListener(e -> handleGraphPartitioning());
         controls.add(splitButton);
         controls.add(Box.createVerticalStrut(10));
         
@@ -55,10 +56,7 @@ public class ControlPanel extends JPanel {
             controls.add(oldComponents[0]); // "Podziel graf" button
             controls.add(Box.createVerticalStrut(10));
         }
-        if (oldComponents.length > 2) {
-            controls.add(oldComponents[2]); // "Pokaż/ukryj partycje" button
-            controls.add(Box.createVerticalStrut(10));
-        }
+
 
         // Dodaj nowe przyciski
         for (ColoredGraphView view : graphViews) {
@@ -127,13 +125,15 @@ public class ControlPanel extends JPanel {
             
             // Perform partitioning
             GraphPartitioner partitioner = new SimpleGraphPartitioner();
-            partitioner.partition(originalGraph, numPartitions, marginPercent / 100.0);
+            Graph newGraph = partitioner.partition(originalGraph, numPartitions, marginPercent / 100.0);
+
+            setGraphViews(List.of(new ColoredGraphView(originalGraph, selectedView.getColor())));
             
             // Update the view to show partitions
-            selectedView.setShowPartitions(true);
+//            selectedView.setShowPartitions(true);
             
             // Refresh the display
-            SwingUtilities.getAncestorOfClass(JFrame.class, this).repaint();
+//            SwingUtilities.getAncestorOfClass(JFrame.class, this).repaint();
             
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this,
