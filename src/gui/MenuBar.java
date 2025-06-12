@@ -11,7 +11,7 @@ public class MenuBar extends JMenuBar {
     private final Consumer<File> fileSelectionCallback;
     private File selectedFile;
 
-    public MenuBar(Consumer<File> fileSelectionCallback) {
+    public MenuBar(Consumer<File> fileSelectionCallback, Runnable handleGraphSaving) {
         super();
         this.fileSelectionCallback = fileSelectionCallback;
 
@@ -22,6 +22,8 @@ public class MenuBar extends JMenuBar {
         JMenuItem aboutItem = new JMenuItem("O programie");
 
         openItem.addActionListener(this::handleOpenFile);
+
+        saveItem.addActionListener(e->handleGraphSaving.run());
 
         menuBar.add(fileMenu);
         fileMenu.add(openItem);

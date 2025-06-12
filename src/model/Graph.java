@@ -42,7 +42,17 @@ public class Graph {
         return numCols;
     }
 
+    public Node getNodeByIndex(int index) {
+        return nodesByIndex.get(index);
+    }
+
+    public List<Node> getNodes() {
+        return new ArrayList<>(nodesByIndex.values());
+    }
+
     public int getNumVertices() {
         return adjacencyList.size();
     }
+
+
 }

@@ -5,12 +5,13 @@ import model.Graph;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class GraphReaderCSRRG implements GraphReader {
+
+    private final GraphUtils graphUtils = new GraphUtils();
     @Override
-    public Graph readGraph(String filePath) throws Exception {
+    public List<Graph> readGraph(String filePath) throws Exception {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             int lineNum = 0;
 
@@ -47,7 +48,7 @@ public class GraphReaderCSRRG implements GraphReader {
             }
             firstElementInGroup.add(connectedNodes.size());
 
-            return new GraphBuilder().build(numCols, vertices, verticesRow, connectedNodes, firstElementInGroup);
+            return graphUtils.separateGraphs(graphUtils.build(numCols, vertices, verticesRow, connectedNodes, firstElementInGroup));
 
 
         } catch (IOException | NumberFormatException e) {
@@ -55,6 +56,8 @@ public class GraphReaderCSRRG implements GraphReader {
             throw new Exception("Error while reading graph: " + e.getMessage(), e);
         }
     }
+
+
 
     private String nextLine(BufferedReader reader, int lineNum) throws IOException {
         String line = reader.readLine();

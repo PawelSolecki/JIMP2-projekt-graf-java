@@ -83,7 +83,7 @@ public class GraphPanel extends JPanel {
                 int x = node.getColumn() * GraphStyle.CELL_SIZE + GraphStyle.OFFSET;
                 int y = node.getRow() * GraphStyle.CELL_SIZE + GraphStyle.OFFSET;
 
-                g2.setColor(view.getColor());
+                g2.setColor(view.getNodeColor(node));
                 g2.fillOval(x - GraphStyle.NODE_SIZE / 2, y - GraphStyle.NODE_SIZE / 2,
                     GraphStyle.NODE_SIZE, GraphStyle.NODE_SIZE);
 
